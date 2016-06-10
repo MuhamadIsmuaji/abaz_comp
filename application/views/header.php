@@ -7,12 +7,18 @@
 	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/bootstrap.min.css') ?>">
 	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/dataTables.bootstrap.css') ?>">
 	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/jquery.dataTables.min.css') ?>">
+	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/bootstrap-datetimepicker.css') ?>">
+	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/autocomplete.css') ?>">
 
 	<!-- Javascript Libs -->
     <script type="text/javascript" src="<?= base_url('assets/js/jquery.min.js') ?>"></script>
     <script type="text/javascript" src="<?= base_url('assets/js/bootstrap.min.js') ?>"></script>
     <script type="text/javascript" src="<?= base_url('assets/js/jquery.dataTables.min.js') ?>"></script>
     <script type="text/javascript" src="<?= base_url('assets/js/dataTables.bootstrap.min.js') ?>"></script>
+    <script type="text/javascript" src="<?= base_url('assets/js/moment-with-locales.js') ?>"></script>
+    <script type="text/javascript" src="<?= base_url('assets/js/locale_indo.js') ?>"></script>
+    <script type="text/javascript" src="<?= base_url('assets/js/bootstrap-datetimepicker.js') ?>"></script>
+    <script type="text/javascript" src="<?= base_url('assets/js/jquery-ui.min.js') ?>"></script>
 	
 </head>
 <body>
@@ -26,13 +32,14 @@
 	        	<span class="icon-bar"></span>
 	        	<span class="icon-bar"></span>
 	      	</button>
-	      	<a class="navbar-brand" href="#">AbazComp</a>
+	      	<a class="navbar-brand" href="<?= base_url('admin/home') ?>">AbazComp</a>
 	    </div>
 
 	    <!-- Collect the nav links, forms, and other content for toggling -->
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	    	<ul class="nav navbar-nav navbar-right">
 	        	<li><a href="<?= base_url('admin/barang') ?>">Data Barang</a></li>
+	        	<li><a href="<?= base_url('admin/transaksi') ?>">Data Transaksi</a></li>
 	        	<li class="dropdown">
 	          		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">	Hallo <?= $this->session->userdata('username') ?> 
 	          			<span class="caret"></span>

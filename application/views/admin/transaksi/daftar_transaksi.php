@@ -1,15 +1,15 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12" align="center">
-			<h2> Daftar Barang</h2>
+			<h2> Daftar Transaksi</h2>
 		</div>
 	</div>
 
 	<div class="row">
 		<div class="col-md-12">
 			<div class="well">
-				<a href="<?= base_url('admin/barang/tambahBarang') ?>" class="btn btn-primary">
-					<strong>Tambah Barang</strong>
+				<a href="<?= base_url('admin/transaksi/tambahTransaksi/'.$noNotaMax) ?>" class="btn btn-primary">
+					<strong>Tambah Transaksi</strong>
 				</a>
 			</div>
 		</div>
@@ -17,16 +17,14 @@
 		<div class="col-md-12">
 			<div class="well">
 				<div class="table-responsive">
-					<table id="tbDaftarBarang" class="table table-striped">
+					<table id="tbDaftarTransaksi" class="table table-striped">
 						<thead>
 							<tr>
-								<th>Kode Barang</th>
-								<th>Nama Barang</th>
-								<th>Stok Barang</th>
-								<th>Harga Beli (Rp)</th>
-								<th>Harga Jual (Rp)</th>
-								<th>Diskon (%)</th>
-								<th>Harga Setelah Diskon (Rp)</th>
+								<th>No Nota</th>
+								<th>Nama Pembeli</th>
+								<th>Tanggal Transaksi</th>
+								<th>Total Pembelian (Rp)</th>
+								<th>Operator</th>
 								<th>#</th>
 							</tr>
 						</thead>
@@ -45,7 +43,7 @@
 
 	$(function(){
 		/*Datatable*/
-		table = $('#tbDaftarBarang').DataTable({
+		table = $('#tbDaftarTransaksi').DataTable({
     			
 			ordering : 0,
 
@@ -53,7 +51,7 @@
                 "search": "Pencarian:",
                 "searchPlaceholder": "Nama Barang...",
                 "lengthMenu": "Tampilkan _MENU_ Data",
-                "zeroRecords": "Data barang kosong",
+                "zeroRecords": "Data transaksi kosong",
                 "info": "",
                 "infoEmpty": "",
                 "infoFiltered": "",
@@ -69,7 +67,7 @@
             "serverSide": true,
 
             "ajax" : {
-                "url": "<?php echo base_url('admin/barang/daftarBarang');?>/",
+                "url": "<?php echo base_url('admin/transaksi/daftarTransaksi');?>/",
                 "type": "POST",
                 "dataType" : "json"
             },
