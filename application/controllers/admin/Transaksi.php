@@ -42,6 +42,15 @@ class Transaksi extends CI_Controller {
 
 			$no++;
 			$row = array();
+
+			$aksi = '
+			<a href="'. base_url('admin/transaksi/detailTransaksi/'.$transaksi->no_nota) .'" class="btn btn-primary" target="_blank">
+				<strong>Detail</strong> 
+			</a>
+			<a href="'. base_url('admin/transaksi/cetakKwitansi/'.$transaksi->no_nota) .'" class="btn btn-primary" target="_blank">
+				<strong>Kwitansi</strong> 
+			</a>
+			';
 			
 			$row[] = $transaksi->no_nota;
 			$row[] = $transaksi->nama_pembeli;
@@ -49,7 +58,7 @@ class Transaksi extends CI_Controller {
 			$row[] = $tgl_transaksi->format('d-m-Y');
 			$row[] = $transaksi->total_pembelian;
 			$row[] = $transaksi->operator;
-			$row[] = 'aaa';
+			$row[] = $aksi;
 			$data[] = $row;
 
 			
@@ -64,6 +73,65 @@ class Transaksi extends CI_Controller {
 
 		echo json_encode($output);
 
+	}
+
+	public function cetakKwitansi($no_nota = NULL) {
+		if ( ! $this->session->userdata('isAdminAbaz') ) {
+			redirect('login','refresh');
+		}
+
+		if ( $no_nota == NULL ) {
+			redirect('admin/transaksi','refresh');
+		}
+
+		$transaksi = $this->M_transaksi->getTransaksiByNota($no_nota)->row();
+
+		if ( $transaksi ) {
+			$detail = $this->M_detailtransaksi->getDetailByNota($no_nota)->result();
+
+			// $data = [
+			// 	'judul'				=> 'Detail Transaksi',
+			// 	'content'			=> 'admin/transaksi/detail_transaksi',
+			// 	'transaksi'			=> $transaksi,
+			// 	'detailTransaksi'	=> $detail
+			// ];
+
+			//$this->load->view('template',$data);
+			var_dump($detail);
+		} else {
+			echo "<script>alert('Transaksi Tidak Ditemukan !!!')</script>";
+			redirect('admin/transaksi','refresh');
+		}
+
+	}
+
+	public function detailTransaksi($no_nota = NULL) {
+		if ( ! $this->session->userdata('isAdminAbaz') ) {
+			redirect('login','refresh');
+		}
+
+		if ( $no_nota == NULL ) {
+			redirect('admin/transaksi','refresh');
+		}
+
+		$transaksi = $this->M_transaksi->getTransaksiByNota($no_nota)->row();
+
+		if ( $transaksi ) {
+			$detail = $this->M_detailtransaksi->getDetailByNota($no_nota)->result();
+
+			$data = [
+				'judul'				=> 'Detail Transaksi',
+				'content'			=> 'admin/transaksi/detail_transaksi',
+				'transaksi'			=> $transaksi,
+				'detailTransaksi'	=> $detail
+			];
+
+			$this->load->view('template',$data);
+			//var_dump($detail);
+		} else {
+			echo "<script>alert('Transaksi Tidak Ditemukan !!!')</script>";
+			redirect('admin/transaksi','refresh');
+		}
 	}
 
 	public function tambahTransaksi($notaMax = NULL) {
@@ -99,6 +167,26 @@ class Transaksi extends CI_Controller {
 		$noNotaMax += 1; 
 
 		echo json_encode(array('nota_max' => $noNotaMax));
+	}
+
+	public function cetakLaporan() {
+		if ( ! $this->session->userdata('isAdminAbaz') ) {
+			redirect('login','refresh');
+		}
+
+		if ( ! empty($_POST) ) {
+			$dari = new DateTime($this->input->post('dari'));
+			$dari = $dari->format('Y-m-d');
+			
+			$sampai = new DateTime($this->input->post('sampai'));
+			$sampai = $sampai->format('Y-m-d');
+
+
+
+
+		} else {
+			redirect('admin/transaksi','refresh');
+		}
 	}
 
 	public function getBarangAutoComplete() {

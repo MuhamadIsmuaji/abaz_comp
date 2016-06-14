@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 14, 2016 at 07:50 PM
+-- Generation Time: Jun 13, 2016 at 07:21 PM
 -- Server version: 5.5.47-MariaDB-1ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.14
 
@@ -29,10 +29,10 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `barang` (
   `kode_barang` char(4) NOT NULL,
   `nama_barang` varchar(255) DEFAULT NULL,
-  `stock_barang` enum('Banyak','Terbatas','Tidak ada') DEFAULT NULL,
+  `stock_barang` int(3) DEFAULT NULL,
   `harga_beli` int(10) DEFAULT NULL,
   `harga_jual` int(10) DEFAULT NULL,
-  `diskon` int(50) DEFAULT NULL,
+  `diskon` int(3) DEFAULT NULL,
   `katagori` int(3) NOT NULL,
   `gambar` varchar(255) NOT NULL,
   PRIMARY KEY (`kode_barang`),
@@ -44,9 +44,32 @@ CREATE TABLE IF NOT EXISTS `barang` (
 --
 
 INSERT INTO `barang` (`kode_barang`, `nama_barang`, `stock_barang`, `harga_beli`, `harga_jual`, `diskon`, `katagori`, `gambar`) VALUES
-('01', 'Mouse Gaming Bro', 'Banyak', 10000, 15000, 10, 2, ''),
-('02', 'Kabel HDMI Panjang', 'Terbatas', 10000, 15000, 10, 2, ''),
-('03', 'SD card', 'Terbatas', 20000, 12000, 5, 5, '');
+('b1', 'barang 1', 8, 10000, 11000, 10, 1, 'Screenshot_from_2016-05-13_20:53:08.png'),
+('b2', 'Barang bagus sekali', 5, 50000, 60000, 50, 20, 'IAK_Beginner_UNTAG.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `detail_transaksi`
+--
+
+CREATE TABLE IF NOT EXISTS `detail_transaksi` (
+  `nomer_nota` int(3) DEFAULT NULL,
+  `kode_barang` char(4) DEFAULT NULL,
+  `jumlah` int(3) DEFAULT NULL,
+  `harga_satuan` int(10) DEFAULT NULL,
+  `jumlah_harga` int(7) DEFAULT NULL,
+  KEY `nomer_nota` (`nomer_nota`),
+  KEY `kode_barang` (`kode_barang`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `detail_transaksi`
+--
+
+INSERT INTO `detail_transaksi` (`nomer_nota`, `kode_barang`, `jumlah`, `harga_satuan`, `jumlah_harga`) VALUES
+(1, 'b1', 2, 9900, 19800),
+(2, 'b2', 5, 30000, 150000);
 
 -- --------------------------------------------------------
 
@@ -129,6 +152,29 @@ INSERT INTO `kategori` (`id_kategori`, `nama_kategori`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `transaksi`
+--
+
+CREATE TABLE IF NOT EXISTS `transaksi` (
+  `no_nota` int(3) NOT NULL AUTO_INCREMENT,
+  `tgl_pembelian` date DEFAULT NULL,
+  `nama_pembeli` varchar(50) DEFAULT NULL,
+  `total_pembelian` int(7) DEFAULT NULL,
+  `operator` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`no_nota`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `transaksi`
+--
+
+INSERT INTO `transaksi` (`no_nota`, `tgl_pembelian`, `nama_pembeli`, `total_pembelian`, `operator`) VALUES
+(1, '2016-06-12', 'bagog', 19800, 'wisnu'),
+(2, '2016-06-12', 'sugiono', 150000, 'wisnu');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
@@ -142,7 +188,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`username`, `password`) VALUES
-('wisnu', '123');
+('wisnu', '123'),
+('ismu', '321');
 
 --
 -- Constraints for dumped tables
@@ -153,6 +200,13 @@ INSERT INTO `user` (`username`, `password`) VALUES
 --
 ALTER TABLE `barang`
   ADD CONSTRAINT `barang_ibfk_1` FOREIGN KEY (`katagori`) REFERENCES `kategori` (`id_kategori`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `detail_transaksi`
+--
+ALTER TABLE `detail_transaksi`
+  ADD CONSTRAINT `detail_transaksi_ibfk_1` FOREIGN KEY (`nomer_nota`) REFERENCES `transaksi` (`no_nota`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `detail_transaksi_ibfk_2` FOREIGN KEY (`kode_barang`) REFERENCES `barang` (`kode_barang`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
